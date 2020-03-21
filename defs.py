@@ -25,7 +25,7 @@ def getVid(downloadit, par_div, name):
     else:
         vidurl = vidstr["src"]
 
-    outfile = "dl\\" + name + '.mp4'
+    outfile = os.path.join("dl", name + '.mp4')
 
     pr(outfile)
 
@@ -46,7 +46,9 @@ def getPics(downloadit, par_div, name):
     for picdiv in picdivs:
 
         imgurl = picdiv.img["src"]
-        picfile = "dl\\" + name + ' - ' + str(picno).zfill(3) + '.jpg'
+        #picfile = "dl\\" + name + ' - ' + str(picno).zfill(3) + '.jpg'
+        picfile = os.path.join("dl", name + ' - ' + str(picno).zfill(3) + '.jpg')
+
 
         pr(picfile)
         if downloadit:
@@ -65,12 +67,12 @@ def titleFix(tit):
     valid_chars = "!,-_.() %s%s" % (string.ascii_letters, string.digits)
     newtit = ''.join(c for c in tit if c in valid_chars)
 
-    if len(newtit) > 110:
+    if len(newtit) > 70:
         newtitarr = newtit.split(' ')
         newtit = ''
 
         ct = 0
-        while len(newtit) < 110:
+        while len(newtit) < 70:
             newtit += newtitarr[ct] + ' '
             ct += 1
 
@@ -100,6 +102,9 @@ def dtFix(dt, dtstr):
     return f"{dttm.year}-{str(dttm.month).zfill(2)}-{str(dttm.day).zfill(2)} {str(dttm.hour).zfill(2)}-{str(dttm.minute).zfill(2)}"
 
 def getAll(downloadit, par_div):
+
+    if not os.path.isdir('dl'):
+        os.mkdir('dl')
 
     for div in par_div:
 
