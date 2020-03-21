@@ -42,21 +42,22 @@ def getPics(downloadit, par_div, name):
     if picdivs is None:
         return
 
+    imgcoll = []
     picno = 1
     for picdiv in picdivs:
-
         imgurl = picdiv.img["src"]
-        #picfile = "dl\\" + name + ' - ' + str(picno).zfill(3) + '.jpg'
+        if imgurl not in imgcoll:
+            imgcoll.append(imgurl)
+
+    for imgurl in imgcoll:
         picfile = os.path.join("dl", name + ' - ' + str(picno).zfill(3) + '.jpg')
-
-
+        picno += 1
         pr(picfile)
         if downloadit:
             if not os.path.isfile(picfile): 
                 myfile = requests.get(imgurl)
-                open(picfile , 'wb').write(myfile.content)
+                open(picfile, 'wb').write(myfile.content)
 
-        picno += 1
 
 def titleFix(tit):
 
@@ -132,6 +133,7 @@ def getAll(downloadit, par_div):
         #print("     -- Video" if isVid else "     -- Pics")
         #print(tit.strip())
 
+        #title = [(f"{who} - {dtstr}"), f" - {tit}" if len(tit.strip()) > 0 else ""]
         title = (f"{who} - {dtstr}")
         title += f" - {tit}" if len(tit.strip()) > 0 else ""
 
