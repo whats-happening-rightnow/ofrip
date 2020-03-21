@@ -37,10 +37,18 @@ def getVid(downloadit, par_div, name):
 
 def getPics(downloadit, par_div, name):
 
+    #photo gallery
     picdivs = par_div.findAll("div", {"class": "swiper-slide"})
 
-    if picdivs is None:
-        return
+    if not picdivs:
+
+        #single photo
+        picdivs = par_div.find("div", {"class": "post_img_block"})
+
+        if picdivs is None:
+            return
+        else:
+            picdivs = [picdivs]
 
     imgcoll = []
     picno = 1
